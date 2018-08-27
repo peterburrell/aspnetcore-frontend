@@ -1,0 +1,3 @@
+﻿@model bool?
+
+@(Model.HasValue ? Model.Value == true ? "Yes" : "No" : string.Empty)

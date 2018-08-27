@@ -1,0 +1,12 @@
+﻿@using Demo.Web.Features.Users
+@model Demo.Web.Features.Users.UserModel
+
+@{
+    ViewData["Title"] = "UserModel Details";
+}
+
+<h2>User Details</h2>
+
+@Html.DisplayForModel()
+
+<a asp-action="Edit" asp-route-userId="@Model.Id" class="btn btn-secondary">Edit User</a>

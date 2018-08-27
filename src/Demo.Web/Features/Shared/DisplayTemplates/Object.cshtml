@@ -1,0 +1,26 @@
+﻿@if (ViewData.ModelExplorer.Model == null)
+{
+    <text>@ViewData.ModelExplorer.Metadata.NullDisplayText</text>
+}
+
+@if (ViewData.TemplateInfo.TemplateDepth > 1)
+{
+    <text>ViewData.ModelMetadata.SimpleDisplayText</text>
+}
+else
+{
+    <table class="table table-bordered">
+        <tbody>
+            @foreach (var prop in ViewData.ModelExplorer.Properties.Where(p => p.Metadata.ShowForEdit && !p.Metadata.IsComplexType && !ViewData.TemplateInfo.Visited(p)))
+            {
+                if (!prop.Metadata.HideSurroundingHtml)
+                {
+                    <tr>
+                        <td>@Html.DisplayName(prop.Metadata.PropertyName)</td>
+                        <td>@Html.Display(prop.Metadata.PropertyName)</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}

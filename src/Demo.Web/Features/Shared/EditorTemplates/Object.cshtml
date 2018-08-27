@@ -1,0 +1,29 @@
+﻿@if (ViewData.TemplateInfo.TemplateDepth > 1)
+{
+    if (ViewData.ModelExplorer.Model == null)
+    {
+        <text>@ViewData.ModelExplorer.Metadata.NullDisplayText</text>
+    }
+    else
+    {
+        <text>ViewData.ModelMetadata.SimpleDisplayText</text>
+    }
+}
+else
+{
+    foreach (var prop in ViewData.ModelExplorer.Properties.Where(p => p.Metadata.ShowForEdit && !p.Metadata.IsComplexType && !ViewData.TemplateInfo.Visited(p)))
+    {
+        if (prop.Metadata.HideSurroundingHtml)
+        {
+            @Html.Editor(prop.Metadata.PropertyName)
+        }
+        else
+        {
+            <div class="form-group">
+                @Html.Label(prop.Metadata.PropertyName)
+                @Html.Editor(prop.Metadata.PropertyName, new {htmlAttributes = new { @class="form-control"} })
+                @Html.ValidationMessage(prop.Metadata.PropertyName, new { @class = "text-danger" })
+            </div>
+        }
+    }
+}
