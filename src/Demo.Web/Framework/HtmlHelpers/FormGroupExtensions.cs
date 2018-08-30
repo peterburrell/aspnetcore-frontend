@@ -138,52 +138,56 @@ namespace Demo.Web.Framework.HtmlHelpers
         private static IHtmlContent GenerateInputList(this IHtmlHelper htmlHelper, string expression, IEnumerable<SelectListItem> selectList, string type="checkbox")
         {
             var generator = htmlHelper.ViewContext.HttpContext.RequestServices.GetService<IHtmlGenerator>();
-
             var modelExplorer = ExpressionMetadataProvider.FromStringExpression(expression, htmlHelper.ViewData, htmlHelper.MetadataProvider);
-
             var currentValues = generator.GetCurrentValues(htmlHelper.ViewContext, modelExplorer, expression, type == "checkbox");
 
-            var fieldIdPrefix = htmlHelper.Id(expression);
-            var counter = 0;
+            var name = htmlHelper.Name(expression);
+            var prefix = htmlHelper.Id(expression);
+            var count = 0;
 
             var content = new HtmlContentBuilder();
 
             foreach (var selectListItem in selectList)
             {
-                var fieldId = fieldIdPrefix + "__" + counter++;
-
-                content.AppendHtml("<div class='form-check'>");
-
-                var input = new TagBuilder("input");
-                input.TagRenderMode = TagRenderMode.SelfClosing;
-                input.MergeAttribute("id", fieldId);
-                input.MergeAttribute("type", type);
-                input.MergeAttribute("name", htmlHelper.Name(expression));
-                input.MergeAttribute("value", selectListItem.Value);
-
-                var selected = selectListItem.Selected;
-
-                if (currentValues != null)
-                {
-                    var value = selectListItem.Value ?? selectListItem.Text;
-                    selected = currentValues.Contains(value);
-                }
-
-                if (selected)
-                    input.MergeAttribute("checked", "checked");
-
-                if (selectListItem.Disabled)
-                    input.MergeAttribute("disabled", "disabled");
-
-                input.MergeAttribute("class", "form-check-input");
+                var fieldId = prefix + "__" + count++;
+                var input = GenerateInput(name, fieldId, type, selectListItem, currentValues);
 
                 content
+                    .AppendHtml("<div class='form-check'>")
                     .AppendHtml(input)
                     .AppendHtml(string.Format("<label for='{0}' class='form-check-label'>{1}</label>", fieldId, selectListItem.Text))
                     .AppendHtml("</div>");
             }
 
             return content;
+        }
+
+        private static IHtmlContent GenerateInput(string name, string id, string type, SelectListItem selectListItem, ICollection<string> currentValues)
+        {
+            var input = new TagBuilder("input");
+            input.TagRenderMode = TagRenderMode.SelfClosing;
+            input.MergeAttribute("id", id);
+            input.MergeAttribute("type", type);
+            input.MergeAttribute("name", name);
+            input.MergeAttribute("value", selectListItem.Value);
+
+            var selected = selectListItem.Selected;
+
+            if (currentValues != null)
+            {
+                var value = selectListItem.Value ?? selectListItem.Text;
+                selected = currentValues.Contains(value);
+            }
+
+            if (selected)
+                input.MergeAttribute("checked", "checked");
+
+            if (selectListItem.Disabled)
+                input.MergeAttribute("disabled", "disabled");
+
+            input.MergeAttribute("class", "form-check-input");
+
+            return input;
         }
     }
 }

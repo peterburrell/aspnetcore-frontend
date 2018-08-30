@@ -34,7 +34,7 @@ namespace Demo.Web
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-                .AddMvcOptions(m => m.ModelMetadataDetailsProviders.Add(new DisplayNameMetadataProvider()))
+                .AddMvcOptions(m => m.ModelMetadataDetailsProviders.Add(new CustomDisplayMetadataProvider()))
                 .AddFeatureFolders();
         }
 

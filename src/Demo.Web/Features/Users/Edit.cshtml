@@ -34,11 +34,11 @@
             @Html.FormGroupFor(m => m.Tags)
             @Html.FormGroup("Rating")
 
-            <div class="form-group">
+            @*<div class="form-group">
                 @Html.LabelFor(m => m.Tags)
                 @Html.CheckboxListFor(m => m.Tags, Html.GetEnumSelectList<Gender>())
                 @Html.ValidationMessageFor(m => m.Tags)
-            </div>
+            </div>*@
 
             <div class="form-group">
                 @Html.LabelFor(m => m.Gender)

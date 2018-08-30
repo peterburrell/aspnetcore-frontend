@@ -1,14 +1,23 @@
 ﻿@using Demo.Web.Framework.HtmlHelpers
 
-@foreach (var prop in ViewData.ModelExplorer.Properties.Where(p => p.Metadata.ShowForEdit && !ViewData.TemplateInfo.Visited(p)))
+@if (ViewData.TemplateInfo.TemplateDepth < 4)
 {
-    if (prop.Metadata.IsComplexType)
+    foreach (var prop in ViewData.ModelExplorer.Properties.Where(p => p.Metadata.ShowForEdit && !ViewData.TemplateInfo.Visited(p) && !p.Metadata.IsReadOnly))
     {
-        <h4>@Html.DisplayName(prop.Metadata.PropertyName)</h4>
-        @Html.Editor(prop.Metadata.PropertyName)
-    }
-    else
-    {
-        @(prop.Metadata.HideSurroundingHtml ? Html.Editor(prop.Metadata.PropertyName) : Html.FormGroup(prop.Metadata.PropertyName))
+        if (prop.Metadata.TemplateHint == "HiddenInput")
+        {
+            @Html.Hidden(prop.Metadata.PropertyName)
+        }
+        else if (prop.Metadata.IsComplexType && string.IsNullOrEmpty(prop.Metadata.TemplateHint))
+        {
+            <fieldset>
+                <legend>@prop.Metadata.DisplayName</legend>
+                @Html.Editor(prop.Metadata.PropertyName)
+            </fieldset>
+        }
+        else
+        {
+            @Html.FormGroup(prop.Metadata.PropertyName)
+        }
     }
 }

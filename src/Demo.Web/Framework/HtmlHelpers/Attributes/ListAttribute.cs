@@ -7,8 +7,13 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 
 namespace Demo.Web.Framework.HtmlHelpers.Attributes
 {
+    public interface IDisplayMetadataProviderAttribute
+    {
+        void SetDisplayMetadata(DisplayMetadata displayMetadata);
+    }
+
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public abstract class ListAttribute : Attribute
+    public abstract class ListAttribute : Attribute, IDisplayMetadataProviderAttribute
     {
         private string SelectList { get; set; }
 
@@ -17,7 +22,7 @@ namespace Demo.Web.Framework.HtmlHelpers.Attributes
             SelectList = selectList;
         }
 
-        public virtual void SetMetadata(DisplayMetadata displayMetadata)
+        public virtual void SetDisplayMetadata(DisplayMetadata displayMetadata)
         {
             displayMetadata.AdditionalValues["SelectList"] = SelectList;
         }
@@ -31,10 +36,70 @@ namespace Demo.Web.Framework.HtmlHelpers.Attributes
         {
         }
 
-        public override void SetMetadata(DisplayMetadata displayMetadata)
+        public override void SetDisplayMetadata(DisplayMetadata displayMetadata)
         {
-            base.SetMetadata(displayMetadata);
+            base.SetDisplayMetadata(displayMetadata);
             displayMetadata.TemplateHint = "CheckboxList";
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+    public sealed class RadioButtonListAttribute : ListAttribute
+    {
+        public RadioButtonListAttribute(string selectList)
+            : base(selectList)
+        {
+        }
+
+        public override void SetDisplayMetadata(DisplayMetadata displayMetadata)
+        {
+            base.SetDisplayMetadata(displayMetadata);
+            displayMetadata.TemplateHint = "RadioButtonList";
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+    public sealed class DropDownListAttribute : ListAttribute
+    {
+        private string OptionLabel { get; set; }
+
+        public DropDownListAttribute(string listName, string optionLabel = "")
+            : base(listName)
+        {
+            OptionLabel = optionLabel;
+        }
+
+        public override void SetDisplayMetadata(DisplayMetadata displayMetadata)
+        {
+            base.SetDisplayMetadata(displayMetadata);
+
+            displayMetadata.TemplateHint = "DropDownList";
+            displayMetadata.AdditionalValues["OptionLabel"] = OptionLabel;
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
+    public class DisplayInTemplates : Attribute, IDisplayMetadataProviderAttribute
+    {
+        public bool ShowForDisplay { get; set; }
+
+        public bool ShowForEdit { get; set; }
+
+        public DisplayInTemplates() : this(true)
+        {
+            
+        }
+
+        public DisplayInTemplates(bool show)
+        {
+            ShowForDisplay = show;
+            ShowForEdit = show;
+        }
+
+        public void SetDisplayMetadata(DisplayMetadata displayMetadata)
+        {
+            displayMetadata.ShowForDisplay = ShowForDisplay;
+            displayMetadata.ShowForEdit = ShowForEdit;
         }
     }
 }

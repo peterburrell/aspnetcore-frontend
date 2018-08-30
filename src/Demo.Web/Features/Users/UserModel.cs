@@ -43,14 +43,18 @@ namespace Demo.Web.Features.Users
         public int Pets { get; set; }
 
         [CheckboxList(nameof(TagOptions))]
-        public ICollection<string> Tags { get; set; } = new List<string>();
+        public ICollection<string> Tags { get; set; } = new List<string>() {"tag1", "tag2"};
 
+        [DisplayInTemplates(false)]
         public IEnumerable<SelectListItem> TagOptions => new List<SelectListItem>
         {
             new SelectListItem("Option 1", "1"),
             new SelectListItem("Option 2", "2") ,
             new SelectListItem("Option 3", "3")
         };
+
+        [UIHint("YesNoRadio")]
+        public bool HasCertification { get; set; }
 
         [DataType(DataType.EmailAddress)]
         [EmailAddress]

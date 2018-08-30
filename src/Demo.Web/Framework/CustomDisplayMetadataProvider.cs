@@ -8,25 +8,23 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 
 namespace Demo.Web.Framework
 {
-    public class DisplayNameMetadataProvider : IDisplayMetadataProvider
+    public class CustomDisplayMetadataProvider : IDisplayMetadataProvider
     {
         public void CreateDisplayMetadata(DisplayMetadataProviderContext context)
         {
             var propertyAttributes = context.Attributes;
-            var modelMetadata = context.DisplayMetadata;
+            var displayMetadata = context.DisplayMetadata;
             var propertyName = context.Key.Name;
 
-            if (IsTransformRequired(propertyName, modelMetadata, propertyAttributes))
+            if (IsTransformRequired(propertyName, displayMetadata, propertyAttributes))
             {
-                modelMetadata.DisplayName = () => Transform(propertyName);
+                displayMetadata.DisplayName = () => Transform(propertyName);
             }
 
-            var attributes = propertyAttributes.OfType<ListAttribute>();
-
+            var attributes = propertyAttributes.OfType<IDisplayMetadataProviderAttribute>();
             foreach (var attribute in attributes)
             {
-                // attribute implements ISetDisplayMetadata
-                attribute.SetMetadata(context.DisplayMetadata);
+                attribute.SetDisplayMetadata(context.DisplayMetadata);
             }
         }
 

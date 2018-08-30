@@ -7,10 +7,13 @@
 {
     <table class="table table-bordered">
         <tbody>
-            @foreach (var prop in ViewData.ModelExplorer.Properties.Where(p => !ViewData.TemplateInfo.Visited(p)))
+            @foreach (var prop in ViewData.ModelExplorer.Properties.Where(p => !ViewData.TemplateInfo.Visited(p) && p.Metadata.ShowForDisplay))
             {
                 if (prop.Metadata.IsComplexType)
                 {
+                    <tr>
+                        <th colspan="2">@prop.Metadata.DisplayName</th>
+                    </tr>
                     @Html.Display(prop.Metadata.PropertyName)
                 }
                 else
@@ -26,7 +29,7 @@
 }
 else
 {
-    foreach (var prop in ViewData.ModelExplorer.Properties.Where(p => !ViewData.TemplateInfo.Visited(p)))
+    foreach (var prop in ViewData.ModelExplorer.Properties.Where(p => !ViewData.TemplateInfo.Visited(p) && p.Metadata.ShowForDisplay))
     {
         if (prop.Metadata.IsComplexType)
         {

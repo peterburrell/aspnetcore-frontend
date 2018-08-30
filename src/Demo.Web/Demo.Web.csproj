@@ -16,6 +16,12 @@
     <Content Update="Features\Shared\DisplayTemplates\Object.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Features\Shared\EditorTemplates\YesNoRadio.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Features\Shared\EditorTemplates\YesNo.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Features\Shared\EditorTemplates\CheckboxList.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
