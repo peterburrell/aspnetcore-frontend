@@ -1,0 +1,20 @@
+﻿@model Demo.Web.Features.Users.UserModel
+
+@{
+    ViewData["Title"] = "Edit UserModel";
+}
+
+<h2>Edit User</h2>
+
+<form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    @Html.EditorForModel("Object_Horizontal")
+
+    <button class="btn btn-primary" type="submit">Save Changes</button>
+</form>
+
+@section scripts
+{
+    <partial name="_ValidationScripts" />
+}

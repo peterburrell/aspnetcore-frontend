@@ -1,4 +1,6 @@
-﻿@model Demo.Web.Features.Users.UserModel
+﻿@using Demo.Web.Features.Users
+@using Demo.Web.Framework.HtmlHelpers
+@model Demo.Web.Features.Users.UserModel
 
 @{
     ViewData["Title"] = "Edit UserModel";
@@ -9,7 +11,7 @@
 <div class="row">
     <div class="col">
         <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="ModelOnly" class="text-danger">There were some problems:</div>
 
             @Html.EditorForModel()
 
@@ -18,15 +20,31 @@
     </div>
     <div class="col">
         <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="ModelOnly" class="text-danger">Have a look at this:</div>
 
-            @*@Html.EditorFor(m => m.FirstName, "FormGroup", null)*@
+            @Html.FormGroupFor(m => m.Id)
+            @Html.FormGroupFor(m => m.RandomId)
+            <f-form-group for="FirstName" />
+
+            @Html.FormGroupFor(m => m.LastName)
+            @Html.FormGroupFor(m => m.Email)
+            @Html.FormGroupFor(m => m.HomeAddress.Street1)
+            <f-form-group for="HomeAddress.City" />
+            @Html.FormGroupFor(m => m.Password)
+            @Html.FormGroupFor(m => m.Tags)
+            @Html.FormGroup("Rating")
+
             <div class="form-group">
-                <label asp-for="FirstName"></label>
-                <f-editor for="FirstName"/>
-
+                @Html.LabelFor(m => m.Tags)
+                @Html.CheckboxListFor(m => m.Tags, Html.GetEnumSelectList<Gender>())
+                @Html.ValidationMessageFor(m => m.Tags)
             </div>
-            <f-editor for="LastName" />
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Gender)
+                @Html.RadioButtonListFor(m => m.Gender, Html.GetEnumSelectList<Gender>())
+                @Html.ValidationMessageFor(m => m.Gender)
+            </div>
 
             <button class="btn btn-primary" type="submit">Save Changes</button>
         </form>

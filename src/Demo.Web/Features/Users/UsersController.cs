@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.Web.Features.Users
 {
@@ -18,8 +19,11 @@ namespace Demo.Web.Features.Users
         }
 
         [HttpGet("{userId:long}/edit")]
-        public IActionResult Edit(long userId)
+        public IActionResult Edit(long userId, string layout="vertical")
         {
+            if(layout.Equals("horizontal", StringComparison.OrdinalIgnoreCase))
+                return View("Horizontal", UserModel.Get(userId));
+
             return View(UserModel.Get(userId));
         }
 

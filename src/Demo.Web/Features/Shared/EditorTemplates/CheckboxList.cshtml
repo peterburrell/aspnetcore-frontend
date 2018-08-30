@@ -1,0 +1,11 @@
+﻿@using System.Collections
+@using Demo.Web.Framework.HtmlHelpers
+@model object
+
+@{
+    var selectListPropertyName = ViewData.ModelMetadata.AdditionalValues["SelectList"] as string;
+    var selectListProperty = ViewData.ModelExplorer.Container.GetExplorerForProperty(selectListPropertyName);
+    var selectList = selectListProperty.Model as IEnumerable<SelectListItem>;
+}
+
+@Html.CheckboxListFor(m => m, new MultiSelectList(selectList, "Value", "Text", (IEnumerable)Model))

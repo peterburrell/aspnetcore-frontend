@@ -1,0 +1,36 @@
+﻿@using Demo.Web.Framework.HtmlHelpers
+@if (ViewData.TemplateInfo.TemplateDepth > 1)
+{
+    if (ViewData.ModelExplorer.Model == null)
+    {
+        <text>@ViewData.ModelExplorer.Metadata.NullDisplayText</text>
+    }
+    else
+    {
+        <text>ViewData.ModelMetadata.SimpleDisplayText</text>
+    }
+}
+else
+{
+    foreach (var prop in ViewData.ModelExplorer.Properties.Where(p => p.Metadata.ShowForEdit && !p.Metadata.IsComplexType && !ViewData.TemplateInfo.Visited(p)))
+    {
+        if (prop.Metadata.HideSurroundingHtml)
+        {
+            @Html.Editor(prop.Metadata.PropertyName)
+        }
+        else
+        {
+            <div class="form-group row">
+                @Html.Label(prop.Metadata.PropertyName, null, new {@class="col-sm-2 col-form-label text-right"})
+                <div class="col-sm-6">
+                    @Html.Editor(prop.Metadata.PropertyName, new{htmlAttributes=new{@class="form-control"}})
+                    @if (!string.IsNullOrEmpty(prop.Metadata.Description))
+                    {
+                        <small class="form-text text-muted">@prop.Metadata.Description</small>
+                    }
+                    @Html.ValidationMessage(prop.Metadata.PropertyName, new {@class="text-danger"})
+                </div>
+            </div>
+        }
+    }
+}

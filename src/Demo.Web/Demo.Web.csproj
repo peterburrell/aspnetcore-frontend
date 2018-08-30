@@ -16,10 +16,16 @@
     <Content Update="Features\Shared\DisplayTemplates\Object.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Features\Shared\EditorTemplates\FormGroup.cshtml">
+    <Content Update="Features\Shared\EditorTemplates\CheckboxList.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Features\Shared\EditorTemplates\Object_Horizontal.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Features\Users\Details.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Features\Users\Horizontal.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Features\Users\Edit.cshtml">

@@ -43,8 +43,8 @@ namespace Demo.Web
         {
             if (env.IsDevelopment())
             {
-                app.UseExceptionHandler("/Error");
-                //app.UseDeveloperExceptionPage();
+                //app.UseExceptionHandler("/Error");
+                app.UseDeveloperExceptionPage();
             }
             else
             {

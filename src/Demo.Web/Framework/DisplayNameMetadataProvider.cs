@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Demo.Web.Framework.HtmlHelpers.Attributes;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 
 namespace Demo.Web.Framework
@@ -18,6 +19,14 @@ namespace Demo.Web.Framework
             if (IsTransformRequired(propertyName, modelMetadata, propertyAttributes))
             {
                 modelMetadata.DisplayName = () => Transform(propertyName);
+            }
+
+            var attributes = propertyAttributes.OfType<ListAttribute>();
+
+            foreach (var attribute in attributes)
+            {
+                // attribute implements ISetDisplayMetadata
+                attribute.SetMetadata(context.DisplayMetadata);
             }
         }
 

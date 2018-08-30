@@ -1,29 +1,14 @@
-﻿@if (ViewData.TemplateInfo.TemplateDepth > 1)
+﻿@using Demo.Web.Framework.HtmlHelpers
+
+@foreach (var prop in ViewData.ModelExplorer.Properties.Where(p => p.Metadata.ShowForEdit && !ViewData.TemplateInfo.Visited(p)))
 {
-    if (ViewData.ModelExplorer.Model == null)
+    if (prop.Metadata.IsComplexType)
     {
-        <text>@ViewData.ModelExplorer.Metadata.NullDisplayText</text>
+        <h4>@Html.DisplayName(prop.Metadata.PropertyName)</h4>
+        @Html.Editor(prop.Metadata.PropertyName)
     }
     else
     {
-        <text>ViewData.ModelMetadata.SimpleDisplayText</text>
-    }
-}
-else
-{
-    foreach (var prop in ViewData.ModelExplorer.Properties.Where(p => p.Metadata.ShowForEdit && !p.Metadata.IsComplexType && !ViewData.TemplateInfo.Visited(p)))
-    {
-        if (prop.Metadata.HideSurroundingHtml)
-        {
-            @Html.Editor(prop.Metadata.PropertyName)
-        }
-        else
-        {
-            <div class="form-group">
-                @Html.Label(prop.Metadata.PropertyName)
-                @Html.Editor(prop.Metadata.PropertyName, new {htmlAttributes = new { @class="form-control"} })
-                @Html.ValidationMessage(prop.Metadata.PropertyName, new { @class = "text-danger" })
-            </div>
-        }
+        @(prop.Metadata.HideSurroundingHtml ? Html.Editor(prop.Metadata.PropertyName) : Html.FormGroup(prop.Metadata.PropertyName))
     }
 }

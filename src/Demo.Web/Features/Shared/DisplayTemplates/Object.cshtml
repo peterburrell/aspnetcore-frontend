@@ -3,24 +3,42 @@
     <text>@ViewData.ModelExplorer.Metadata.NullDisplayText</text>
 }
 
-@if (ViewData.TemplateInfo.TemplateDepth > 1)
-{
-    <text>ViewData.ModelMetadata.SimpleDisplayText</text>
-}
-else
+@if (ViewData.TemplateInfo.TemplateDepth == 1)
 {
     <table class="table table-bordered">
         <tbody>
-            @foreach (var prop in ViewData.ModelExplorer.Properties.Where(p => p.Metadata.ShowForEdit && !p.Metadata.IsComplexType && !ViewData.TemplateInfo.Visited(p)))
+            @foreach (var prop in ViewData.ModelExplorer.Properties.Where(p => !ViewData.TemplateInfo.Visited(p)))
             {
-                if (!prop.Metadata.HideSurroundingHtml)
+                if (prop.Metadata.IsComplexType)
+                {
+                    @Html.Display(prop.Metadata.PropertyName)
+                }
+                else
                 {
                     <tr>
-                        <td>@Html.DisplayName(prop.Metadata.PropertyName)</td>
+                        <td class="w-25">@Html.DisplayName(prop.Metadata.PropertyName)</td>
                         <td>@Html.Display(prop.Metadata.PropertyName)</td>
                     </tr>
                 }
             }
         </tbody>
     </table>
+}
+else
+{
+    foreach (var prop in ViewData.ModelExplorer.Properties.Where(p => !ViewData.TemplateInfo.Visited(p)))
+    {
+        if (prop.Metadata.IsComplexType)
+        {
+            @Html.Display(prop.Metadata.PropertyName)
+        }
+        else
+        {
+            <tr>
+                <td class="w-25">@Html.DisplayName(prop.Metadata.PropertyName)</td>
+                <td>@Html.Display(prop.Metadata.PropertyName)</td>
+            </tr>
+        }
+    }
+
 }
