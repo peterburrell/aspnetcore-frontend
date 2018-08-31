@@ -1,7 +1,10 @@
-﻿@{
+﻿@model Demo.Web.Features.Users.UserListModel
+@{
     ViewData["Title"] = "Users";
 }
 
 <h2>Users</h2>
 
 <a asp-controller="Users" asp-action="Details" asp-route-userId="10010">User 10010</a>
+
+<k-data-table for="Users"></k-data-table>

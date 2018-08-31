@@ -8,9 +8,11 @@ namespace Demo.Web.Framework.TagHelpers
     /// <summary>
     /// Renders the HTML markup from an editor template for the specified model expression.
     /// </summary>
-    [HtmlTargetElement("f-editor", Attributes = "for", TagStructure = TagStructure.WithoutEndTag)]
-    public class EditorTagHelper : TagHelper
+    [HtmlTargetElement(TagHelperName, Attributes = "for", TagStructure = TagStructure.WithoutEndTag)]
+    public class EditorTagHelper : KronosTagHelper
     {
+        public const string TagHelperName = TagHelperPrefix + "editor";
+
         private readonly IHtmlHelper _htmlHelper;
 
         public EditorTagHelper(IHtmlHelper htmlHelper)

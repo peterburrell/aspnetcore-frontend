@@ -6,12 +6,16 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace Demo.Web.Framework.TagHelpers
 {
-    /// <summary>
-    /// Renders the HTML markup from an editor template for the specified model expression.
-    /// </summary>
-    [HtmlTargetElement("f-form-group", Attributes = "for", TagStructure = TagStructure.WithoutEndTag)]
-    public class FormGroupTagHelper : TagHelper
+    public abstract class KronosTagHelper : TagHelper
     {
+        public const string TagHelperPrefix = "k-";
+    }
+
+    [HtmlTargetElement(TagHelperName, Attributes = "for", TagStructure = TagStructure.WithoutEndTag)]
+    public class FormGroupTagHelper : KronosTagHelper
+    {
+        public const string TagHelperName = TagHelperPrefix + "form-group";
+
         private readonly IHtmlHelper _htmlHelper;
 
         public FormGroupTagHelper(IHtmlHelper htmlHelper)
@@ -24,6 +28,9 @@ namespace Demo.Web.Framework.TagHelpers
         /// </summary>
         [HtmlAttributeName("for")]
         public ModelExpression For { get; set; }
+
+        [HtmlAttributeName("class")]
+        public string Class { get; set; }
 
         [HtmlAttributeNotBound]
         [ViewContext]

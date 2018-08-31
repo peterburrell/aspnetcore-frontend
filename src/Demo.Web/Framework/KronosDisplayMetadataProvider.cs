@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 
 namespace Demo.Web.Framework
 {
-    public class CustomDisplayMetadataProvider : IDisplayMetadataProvider
+    public class KronosDisplayMetadataProvider : IDisplayMetadataProvider
     {
         public void CreateDisplayMetadata(DisplayMetadataProviderContext context)
         {
@@ -33,10 +33,13 @@ namespace Demo.Web.Framework
             if (!string.IsNullOrEmpty(modelMetadata.SimpleDisplayProperty))
                 return false;
 
-            if (propertyAttributes.OfType<DisplayNameAttribute>().Any())
+            var displayAttribute = propertyAttributes.OfType<DisplayAttribute>().FirstOrDefault();
+            var displayNameAttribute = propertyAttributes.OfType<DisplayNameAttribute>().FirstOrDefault();
+
+            if (displayNameAttribute != null)
                 return false;
 
-            if (propertyAttributes.OfType<DisplayAttribute>().Any())
+            if (displayAttribute?.GetName() != null)
                 return false;
 
             if (string.IsNullOrEmpty(propertyName))

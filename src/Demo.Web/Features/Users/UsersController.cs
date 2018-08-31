@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.Web.Features.Users
@@ -9,7 +11,14 @@ namespace Demo.Web.Features.Users
         [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            var users = Enumerable.Range(1, 50).Select(i => new UserListItem
+            {
+                Id = i,
+                FirstName = "First " + i,
+                LastName = "Last" + i,
+            }).ToList();
+
+            return View(new UserListModel { Users = users });
         }
 
         [HttpGet("{userId:long}")]

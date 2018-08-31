@@ -34,7 +34,7 @@ namespace Demo.Web
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-                .AddMvcOptions(m => m.ModelMetadataDetailsProviders.Add(new CustomDisplayMetadataProvider()))
+                .AddMvcOptions(m => m.ModelMetadataDetailsProviders.Add(new KronosDisplayMetadataProvider()))
                 .AddFeatureFolders();
         }
 
